@@ -26,7 +26,7 @@ const Spotify = {
     const headers = { headers: { Authorization: `Bearer ${accessToken}` } };
     fetch(
       `https://api.spotify.com/v1/search?type=track&q=${searchTerm}`,
-      headers
+       headers
     )
       .then(res => {
         return res.json();
@@ -35,6 +35,7 @@ const Spotify = {
         if (!jsonResponse.tracks) {
           return [];
         }
+        console.log(jsonResponse.tracks.items);
         return jsonResponse.tracks.items.map(track => ({
           id: track.id,
           name: track.name,

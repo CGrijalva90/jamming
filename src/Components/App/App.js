@@ -80,10 +80,10 @@ class App extends React.Component {
   }
 
   search(term) {
-    Spotify.search(term).then(response => {
-      console.log(response);
-    });
-    // console.log(Spotify.search(term));
+    // Spotify.search(term).then(response => {
+    //   console.log(response);
+    // });
+    console.log(Spotify.search(term));
   }
 
   render() {
