@@ -15,7 +15,7 @@ class Track extends React.Component {
     return <a className="Track-action" onClick={this.addTrack}> + </a>;
   }
 
-  addTrack(event){
+  addTrack(event) {
     this.props.onAdd(this.props.track);
   }
 

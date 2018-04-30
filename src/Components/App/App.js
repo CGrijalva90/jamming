@@ -10,38 +10,9 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      searchResults: [
-        {
-          name: 'Money Trees',
-          artist: 'Kendrick Lamar',
-          album: 'Album Title',
-          id: '1234'
-        },
-
-        {
-          name: 'Reptilia',
-          artist: 'The Stroks',
-          album: 'Is This It',
-          id: '234'
-        }
-      ],
-
-      playlistName: 'Party Time',
-      playlistTracks: [
-        {
-          name: 'Money Trees',
-          artist: 'Kendrick Lamar',
-          album: 'Album Title',
-          id: '1234'
-        },
-
-        {
-          name: 'Reptilia',
-          artist: 'The Stroks',
-          album: 'Is This It',
-          id: '234'
-        }
-      ]
+      searchResults: [],
+      playlistName: '',
+      playlistTracks: []
     };
 
     this.addTrack = this.addTrack.bind(this);
@@ -60,6 +31,7 @@ class App extends React.Component {
       this.setState(prevState => ({
         playlistTracks: [...prevState.playlistTracks, track]
       }));
+      return;
     }
   }
 
@@ -77,13 +49,19 @@ class App extends React.Component {
 
   savePlaylist() {
     const trackUris = this.state.playlistTracks.map(track => track.uri);
+    Spotify.savePlaylist(this.state.playlistName, trackUris).then(() => {
+      this.setState({
+        playlistName: 'New Playlist',
+        playlistTracks: []
+      });
+    });
   }
 
   search(term) {
-    // Spotify.search(term).then(response => {
-    //   console.log(response);
-    // });
-    console.log(Spotify.search(term));
+    Spotify.search(term).then(response => {
+      this.setState({ searchResults: response });
+    });
+    // console.log(Spotify.search(term));
   }
 
   render() {
@@ -104,7 +82,7 @@ class App extends React.Component {
               playlistTracks={this.state.playlistTracks}
               onRemove={this.removeTrack}
               onNameChange={this.updatePlaylistName}
-              onSave={this.props.savePlaylist}
+              onSave={this.savePlaylist}
             />
           </div>
         </div>
